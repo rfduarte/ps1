@@ -2,8 +2,8 @@
     $PreOrPosBoot = Read-Host "( Pre / Pos )"
     Switch ($PreOrPosBoot)
     {
-        Pre {Get-Service | Select Status,Name,StartType | Export-Csv C:\Users\ramon.duarte\Desktop\PreBootServices.csv}
+        Pre {Get-Service | Select Status,Name,StartType | Export-Csv C:\PerfLogs\PreBootServices.csv}
         Pre {Write-Host "Done!"}
-        Pos {Get-Service | Select Status,Name,StartType | Export-Csv C:\Users\ramon.duarte\Desktop\PosBootServices.csv}
-        Pos {Compare-Object (Get-Content C:\Users\ramon.duarte\Desktop\PreBootServices.csv) (Get-Content C:\Users\ramon.duarte\Desktop\PosBootServices.csv)}
+        Pos {Get-Service | Select Status,Name,StartType | Export-Csv C:\PerfLogs\PosBootServices.csv}
+        Pos {Compare-Object (Get-Content C:\PerfLogs\PreBootServices.csv) (Get-Content C:\PerfLogs\PosBootServices.csv)}
     }
