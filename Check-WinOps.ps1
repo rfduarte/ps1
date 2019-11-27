@@ -1,26 +1,71 @@
-﻿
-$hostname = $env:COMPUTERNAME
-$date = Get-Date -UFormat %d/%M/%Y
-$hour = Get-Date -UFormat %H:%m
-$FirewallStatePublic = (Get-NetFirewallProfile -Name Public).Enabled
-$FirewallStatePrivate = (Get-NetFirewallProfile -Name Private).Enabled
-$FirewallStateDomain = (Get-NetFirewallProfile -Name Domain).Enabled
-$LocalAdmin = (Get-LocalUser -Name admativas -ErrorAction SilentlyContinue).Enable 
+﻿function Get-WinOps {
+    [CmdletBinding()]
+    param ()
+    
+    begin {
+
+    $hostname = $env:COMPUTERNAME
+    $date = Get-Date -Format "dd/MM/yyyy"
+    $hour = Get-Date -Format "HH:mm"
+        
+    }
+    
+    process {
+
+    $FirewallStatePublic = (Get-NetFirewallProfile -Name Public).Enabled
+    
+    $FirewallstatePublicStatus = $(if ($FirewallStatePublic -eq 'True') {
+
+            Write-Output Failed
+    
+        }
+        else {
+
+            Write-Output Pass
+        })
 
 
+    $FirewallStatePrivate = (Get-NetFirewallProfile -Name Private).Enabled
+
+    $FirewallstatePrivateStatus = $(if ($FirewallStatePrivate -eq 'True') {
+
+            Write-Output Failed
+
+        }
+        else {
+
+            Write-Output Pass
+        })
 
 
-$OSReport = New-Object -TypeName psobject
+    $FirewallStateDomain = (Get-NetFirewallProfile -Name Domain).Enabled
 
-$OSReport | Add-Member -MemberType NoteProperty -Name Hostname -Value $hostname
-$OSReport | Add-Member -MemberType NoteProperty -Name Data -Value $date
-$OSReport | Add-Member -MemberType NoteProperty -Name Hora -Value $hour
-$OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePublic' -Value $FirewallStatePublic
-$OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallStatePrivate
-$OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallStateDomain
-$OSReport | Add-Member -MemberType NoteProperty -Name 'LocalAdmin' -Value $LocalAdmin
+    $FirewallstateDomainStatus = $(if ($FirewallStateDomain -eq 'True') {
 
+            Write-Output Failed
 
+        }
+        else {
 
-$OSReport
+            Write-Output Pass
+        })
 
+    $LocalAdmin = (Get-LocalUser -Name admativas -ErrorAction SilentlyContinue).Enable 
+        
+    }
+    
+    end {
+
+    $OSReport = New-Object -TypeName psobject
+    $OSReport | Add-Member -MemberType NoteProperty -Name Hostname -Value $hostname
+    $OSReport | Add-Member -MemberType NoteProperty -Name Data -Value $date
+    $OSReport | Add-Member -MemberType NoteProperty -Name Hora -Value $hour
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePublic' -Value $FirewallstatePublicStatus
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallstatePrivateStatus
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallstateDomainStatus
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'LocalAdmin' -Value $LocalAdmin
+    $OSReport
+       
+    }
+}
+    
