@@ -50,7 +50,19 @@
             Write-Output Pass
         })
 
-    $LocalAdmin = (Get-LocalUser -Name admativas -ErrorAction SilentlyContinue).Enable 
+    $LocalAdmin = (Get-LocalUser -Name admativas -ErrorAction SilentlyContinue).Enabled
+    
+    $LocalAdminState = $(if ($LocalAdmin -eq 'True') {
+
+            Write-Output Pass
+
+        }
+        else {
+        
+            Write-Output Failed
+        
+        })
+    
         
     }
     
@@ -63,7 +75,7 @@
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePublic' -Value $FirewallstatePublicStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallstatePrivateStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallstateDomainStatus
-    $OSReport | Add-Member -MemberType NoteProperty -Name 'LocalAdmin' -Value $LocalAdmin
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'LocalAdmin' -Value $LocalAdminState
     $OSReport
        
     }
