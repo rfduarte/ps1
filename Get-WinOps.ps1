@@ -7,6 +7,7 @@
     $hostname = $env:COMPUTERNAME
     $date = Get-Date -Format "dd/MM/yyyy"
     $hour = Get-Date -Format "HH:mm"
+    $LastBootUpTime = Get-CimInstance Win32_OperatingSystem | Select LastBootUpTime
         
     }
     
@@ -72,6 +73,7 @@
     $OSReport | Add-Member -MemberType NoteProperty -Name Hostname -Value $hostname
     $OSReport | Add-Member -MemberType NoteProperty -Name Data -Value $date
     $OSReport | Add-Member -MemberType NoteProperty -Name Hora -Value $hour
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'Ultimo Boot' -Value $LastBootUpTime
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePublic' -Value $FirewallstatePublicStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallstatePrivateStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallstateDomainStatus
