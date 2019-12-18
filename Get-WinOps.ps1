@@ -17,12 +17,12 @@
 
     $LUAState = $(if ($LUA -eq "1") {
 
-        Write-Output Failed
+            Write-Output Failed
 
         }
         else {
 
-        Write-Output Pass  
+            Write-Output Pass  
     })
 
     $FirewallStatePublic = (Get-NetFirewallProfile -Name Public).Enabled
@@ -82,10 +82,10 @@
     end {
 
     $OSReport = New-Object -TypeName psobject
-    $OSReport | Add-Member -MemberType NoteProperty -Name Hostname -Value $hostname
-    $OSReport | Add-Member -MemberType NoteProperty -Name Data -Value $date
-    $OSReport | Add-Member -MemberType NoteProperty -Name Hora -Value $hour
-    $OSReport | Add-Member -MemberType NoteProperty -Name 'Ultimo Boot' -Value $LastBootUpTime
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'Hostname' -Value $hostname
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'Date' -Value $date
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'Time' -Value $hour
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'LastBoot' -Value $LastBootUpTime
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePublic' -Value $FirewallstatePublicStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallstatePrivateStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallstateDomainStatus
