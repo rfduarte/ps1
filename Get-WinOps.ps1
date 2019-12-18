@@ -12,6 +12,18 @@
     
     process {
 
+    $LUA = (Get-ItemProperty  HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system).EnableLUA
+
+    $LUAState = $(if ($LUA -eq "1") {
+
+        Write-Output Failed
+
+        }
+        else {
+
+            Write-Output Pass  
+    })
+
     $FirewallStatePublic = (Get-NetFirewallProfile -Name Public).Enabled
     
     $FirewallstatePublicStatus = $(if ($FirewallStatePublic -eq 'True') {
@@ -76,8 +88,8 @@
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStatePrivate' -Value $FirewallstatePrivateStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'FirewallStateDomain' -Value $FirewallstateDomainStatus
     $OSReport | Add-Member -MemberType NoteProperty -Name 'LocalAdmin' -Value $LocalAdminState
+    $OSReport | Add-Member -MemberType NoteProperty -Name 'UAC' -Value $LUAState
     $OSReport
        
     }
 }
-    
