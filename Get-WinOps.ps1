@@ -22,7 +22,7 @@
         }
         else {
 
-            Write-Output Pass  
+        Write-Output Pass  
     })
 
     $FirewallStatePublic = (Get-NetFirewallProfile -Name Public).Enabled
